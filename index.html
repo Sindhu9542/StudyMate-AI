@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyMate AI - Student Study Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <div class="logo-icon">📚</div>
+            <span>StudyMate AI</span>
+        </div>
+        <nav class="nav">
+            <button class="nav-btn active" data-target="dashboard"><span>📊</span> Dashboard</button>
+            <button class="nav-btn" data-target="summarizer"><span>📝</span> Topic Summarizer</button>
+            <button class="nav-btn" data-target="subjects"><span>📖</span> My Subjects</button>
+            <button class="nav-btn" data-target="timetable"><span>🗓️</span> Study Timetable</button>
+            <button class="nav-btn" data-target="plans"><span>🗂️</span> Previous Plans</button>
+            <button class="nav-btn" data-target="progress"><span>📈</span> Progress Tracker</button>
+        </nav>
+        <div class="sidebar-footer">
+            <p id="studentNameDisplay">Hello, Student!</p>
+            <small>Data saved locally</small>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <button id="menuToggle" class="menu-toggle">☰</button>
+            <h1 id="pageTitle">Dashboard</h1>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard-section" class="section active">
+            <div class="grid-3">
+                <div class="card stat"><h3 id="statTotalTopics">0</h3><p>Total Topics</p></div>
+                <div class="card stat"><h3 id="statCompleted">0</h3><p>Completed Sessions</p></div>
+                <div class="card stat"><h3 id="statPending">0</h3><p>Pending Sessions</p></div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3>Current Plan Progress</h3><span id="completionPercent">0%</span></div>
+                <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+                <p id="completionText" class="muted">No plan generated yet</p>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Quick Actions</h3>
+                    <div class="action-row">
+                        <button class="btn primary" data-jump="subjects">Add Subject</button>
+                        <button class="btn" data-jump="summarizer">Summarize Topic</button>
+                        <button class="btn" data-jump="timetable">Generate Timetable</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Recent Summaries</h3>
+                    <div id="recentSummaries" class="empty">No summaries yet</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUMMARIZER -->
+        <section id="summarizer-section" class="section">
+            <div class="card">
+                <h2>Topic Summarizer</h2>
+                <p class="muted">Demo mode: Uses a local text algorithm. No API keys needed. Ready for backend AI integration.</p>
+                <form id="summarizerForm">
+                    <div class="grid-2">
+                        <div class="field"><label for="sumTitle">Topic Title</label><input id="sumTitle" type="text" required placeholder="e.g. Photosynthesis"></div>
+                        <!-- <div class="field"><label for="sumSubject">Subject</label><select id="sumSubject" required></select></div> -->
+                    </div>
+                    <div class="field"><label for="sumNotes">Textbook Notes / Material</label><textarea id="sumNotes" required rows="8" placeholder="Paste your notes here..."></textarea></div>
+                    <button class="btn primary" type="submit">Generate Summary</button>
+                </form>
+            </div>
+            <div id="summaryOutput" class="card hidden"></div>
+            <div class="card">
+                <div class="card-header"><h3>Saved Summaries</h3></div>
+                <div id="savedSummariesList" class="list"></div>
+            </div>
+        </section>
+
+        <!-- SUBJECTS -->
+        <section id="subjects-section" class="section">
+            <div class="grid-2">
+                <div class="card">
+                    <h2>My Subjects</h2>
+                    <form id="subjectForm">
+                        <div class="field"><label for="subjectName">Subject Name</label><input id="subjectName" type="text" required placeholder="e.g. Biology"></div>
+                        <div class="field"><label for="examDate">Exam Date</label><input id="examDate" type="date" required></div>
+                        <button class="btn primary" type="submit">Add Subject</button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>Student Preferences</h3>
+                    <form id="prefsForm">
+                        <div class="field"><label for="studentName">Your Name</label><input id="studentName" type="text" placeholder="Your name"></div>
+                        <div class="grid-2">
+                            <div class="field"><label for="dailyHours">Daily Hours</label><input id="dailyHours" type="number" min="1" max="12" value="4" required></div>
+                            <div class="field"><label for="sessionDuration">Session (mins)</label><input id="sessionDuration" type="number" min="20" max="120" step="5" value="45" required></div>
+                        </div>
+                        <div class="field"><label for="startTime">Day Start Time</label><input id="startTime" type="time" value="09:00" required></div>
+                        <button class="btn" type="submit">Save Preferences</button>
+                    </form>
+                </div>
+            </div>
+            <div id="subjectsList" class="grid-2"></div>
+        </section>
+
+        <!-- TIMETABLE -->
+        <section id="timetable-section" class="section">
+            <div class="card">
+                <h2>Smart Timetable</h2>
+                <div class="grid-2">
+                    <div><p class="muted">Generates by exam proximity + difficulty. Includes revision + breaks. Warns if not enough time.</p></div>
+                    <div class="action-row end">
+                        <input id="planName" type="text" placeholder="Plan name (e.g. Final Exams)">
+                        <button id="generateBtn" class="btn primary">Generate Timetable</button>
+                    </div>
+                </div>
+                <div id="timetableWarning" class="alert hidden"></div>
+            </div>
+            <div id="timetableContainer" class="card">
+                <div id="timetableEmpty" class="empty">No timetable yet. Add subjects and topics, then generate.</div>
+                <div id="timetableList" class="timetable-grid"></div>
+            </div>
+        </section>
+
+        <!-- PLANS -->
+        <section id="plans-section" class="section">
+            <div class="card">
+                <div class="card-header"><h3>Previous Plans</h3><button id="newPlanBtn" class="btn">+ New Blank Plan</button></div>
+                <div id="plansList" class="list"></div>
+            </div>
+        </section>
+
+        <!-- PROGRESS -->
+        <section id="progress-section" class="section">
+            <div class="grid-3">
+                <div class="card stat"><h3 id="pTotal">0</h3><p>Total Sessions</p></div>
+                <div class="card stat"><h3 id="pDone">0</h3><p>Done</p></div>
+                <div class="card stat"><h3 id="pPerc">0%</h3><p>Completion</p></div>
+            </div>
+            <div class="card">
+                <h3>Subject-wise Progress</h3>
+                <div id="subjectProgress" class="list"></div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Modals -->
+<div id="topicModal" class="modal hidden">
+    <div class="modal-content">
+        <h3>Add Topic</h3>
+        <form id="topicForm">
+            <input type="hidden" id="topicSubjectId">
+            <div class="field"><label for="topicName">Topic Name</label><input id="topicName" required></div>
+            <div class="field"><label for="topicDifficulty">Difficulty</label><select id="topicDifficulty"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select></div>
+            <div class="action-row"><button type="submit" class="btn primary">Save</button><button type="button" class="btn" id="closeTopicModal">Cancel</button></div>
+        </form>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

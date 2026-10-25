@@ -1,0 +1,62 @@
+:root{
+ --bg:#f6f7fb; --card:#ffffff; --text:#1a1f36; --muted:#6b7280;
+ --primary:#5b5cff; --primary-2:#4f46e5; --border:#e5e7eb;
+ --success:#10b981; --warn:#f59e0b; --danger:#ef4444;
+ --radius:16px; --shadow:0 6px 20px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;font-family:Inter,system-ui,Arial}
+body{margin:0;background:var(--bg);color:var(--text)}
+.app{display:flex;min-height:100vh}
+.sidebar{width:260px;background:#111827;color:#fff;display:flex;flex-direction:column;padding:20px;position:sticky;top:0;height:100vh}
+.logo{display:flex;gap:10px;align-items:center;font-weight:700;font-size:18px;margin-bottom:24px}
+.logo-icon{width:36px;height:36px;background:var(--primary);display:grid;place-items:center;border-radius:10px}
+.nav{display:flex;flex-direction:column;gap:6px}
+.nav-btn{background:transparent;border:0;color:#cbd5e1;text-align:left;padding:12px 14px;border-radius:12px;cursor:pointer;display:flex;gap:10px;font-size:14px;font-weight:500}
+.nav-btn.active,.nav-btn:hover{background:#1f2937;color:#fff}
+.sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid #1f2937}
+.main{flex:1;min-width:0}
+.topbar{padding:18px 24px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:5}
+.menu-toggle{display:none;border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 12px}
+.section{display:none;padding:24px;max-width:1200px;margin:0 auto}
+.section.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:18px}
+.card-header{display:flex;justify-content:space-between;align-items:center}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.stat h3{font-size:28px;margin:0}
+.stat p{margin:4px 0 0;color:var(--muted)}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+label{font-size:13px;font-weight:600}
+input,select,textarea{padding:11px 12px;border:1px solid var(--border);border-radius:10px;font-size:14px;background:#fff}
+textarea{resize:vertical}
+.btn{border:1px solid var(--border);background:#fff;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600;font-size:13px}
+.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn.primary:hover{background:var(--primary-2)}
+.btn.danger{background:var(--danger);color:#fff;border-color:var(--danger)}
+.action-row{display:flex;gap:8px;flex-wrap:wrap}
+.action-row.end{justify-content:flex-end;align-items:center}
+.muted{color:var(--muted);font-size:13px}
+.empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:12px;background:#fafafa}
+.progress-bar{height:10px;background:#eef2ff;border-radius:999px;overflow:hidden;margin:10px 0}
+.progress-fill{height:100%;background:var(--primary);width:0%;transition:.3s}
+.alert{padding:12px;border-radius:12px;margin-top:12px;font-size:13px}
+.alert.warn{background:#fef3c7;border:1px solid #fde68a;color:#92400e}
+.timetable-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.session{border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff}
+.session.done{opacity:.6;background:#f0fdf4;border-color:#bbf7d0}
+.session .meta{font-size:11px;color:var(--muted);margin-bottom:6px}
+.badge{font-size:11px;padding:3px 8px;border-radius:999px;background:#eef2ff;display:inline-block}
+.badge.hard{background:#fee2e2;color:#991b1b}.badge.medium{background:#fef3c7;color:#92400e}.badge.easy{background:#dcfce7;color:#166534}
+.list{display:flex;flex-direction:column;gap:10px}
+.list-item{display:flex;justify-content:space-between;gap:10px;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:grid;place-items:center;z-index:20}
+.modal.hidden,.hidden{display:none !important}
+.modal-content{background:#fff;padding:20px;border-radius:16px;width:90%;max-width:420px}
+@media(max-width:900px){
+ .sidebar{position:fixed;z-index:10;transform:translateX(-100%);transition:.3s}
+ .sidebar.open{transform:translateX(0)}
+ .menu-toggle{display:block}
+ .grid-2,.grid-3{grid-template-columns:1fr}
+ .topbar{padding:12px 16px}
+ .section{padding:16px}
+}
