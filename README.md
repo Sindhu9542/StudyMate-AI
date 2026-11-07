@@ -19,7 +19,7 @@ StudyMate AI is an AI-powered study assistant designed to help students understa
 3. Install the dependencies:
    ```bash
    npm install
-   ```
+   ``
 4. Create a `.env` file in the project folder and add your Groq API key:
    ```env
    GROQ_API_KEY=your_groq_api_key
